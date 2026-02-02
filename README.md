@@ -27,14 +27,20 @@ The following files are in the [`rules/`](rules/) directory:
 
 ## Setup
 
-Symlink the rules directory to Kilo's global rules directory:
+1. **Symlink personal rules:**
 
 ```bash
 mkdir -p ~/.kilocode
 ln -sf "$(pwd)/rules" ~/.kilocode/rules
 ```
 
-This keeps your rules version controlled and automatically updates when you pull.
+2. **Symlink shared rules (optional):**
+
+```bash
+ln -sf ~/Repos/copilot-instructions/.github/copilot-instructions.md ~/.kilocode/rules/copilot-instructions.md
+```
+
+The first command keeps your personal rules version controlled. The second adds shared team standards.
 
 ## Updates
 
