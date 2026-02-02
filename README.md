@@ -7,7 +7,7 @@ Personal rules and configuration for Kilo Code AI assistant.
 - [`workflow.md`](workflow.md) - Git completion requirements and workflow rules
 - [`communication.md`](communication.md) - Communication style and active feedback rules
 - [`documentation.md`](documentation.md) - Markdown formatting and documentation guidelines
-- [`cursor-rules.md`](cursor-rules.md) - Personal cursor rules overview and philosophy
+- [`personal-rules.md`](personal-rules.md) - Repository overview and philosophy
 
 ## Setup
 
