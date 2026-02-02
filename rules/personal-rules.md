@@ -15,7 +15,38 @@ These are personal, experimental, and more assertive rules that supplement share
 
 ## Rule Placement Philosophy
 
-- This repository contains personal, experimental, and more assertive rules
-- Safe, proven, obvious best practices belong in shared configuration files
-- Less established or more experimental approaches are tested here first
-- Once validated, refined versions can be promoted to shared instructions
+Rules are split between this repository and `~/Repo/copilot-instructions/copilot-instructions.md`:
+
+### This Repository (`~/Repos/kilorules/rules/`)
+
+Contains **personal, experimental, and more assertive** rules:
+
+- **Personal preferences** - Tone, communication style, workflow expectations
+- **Experimental approaches** - New patterns being tested before wider adoption
+- **Strong opinions** - Assertive rules that may differ from standard practices
+- **Project-specific conventions** - Rules unique to your projects
+
+**Examples:**
+- "Use conversational, informal tone" (personal preference)
+- "Be intrusive and question everything" (assertive style)
+- "A task is NOT complete until committed and pushed" (strong opinion)
+
+### Shared Instructions (`~/Repo/copilot-instructions/copilot-instructions.md`)
+
+Contains **safe, proven, obvious best practices**:
+
+- **General coding standards** - Language-agnostic best practices
+- **Documentation guidelines** - Standard markdown, code block formatting
+- **Security patterns** - Established security best practices
+- **Well-established conventions** - Widely-accepted patterns
+
+**Examples:**
+- "Use 4-space indentation for code blocks in release notes"
+- "Never include personal names in documentation"
+- Standard linting rules, formatting conventions
+
+## Promotion Process
+
+1. Test experimental rules in `~/Repos/kilorules/rules/` first
+2. Once validated and refined, promote to `~/Repo/copilot-instructions/copilot-instructions.md`
+3. Remove or de-emphasize the promoted rule in this repository
