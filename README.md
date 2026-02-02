@@ -2,6 +2,15 @@
 
 Personal rules and configuration for Kilo Code AI assistant.
 
+## Purpose
+
+These rules configure Kilo's AI assistant behavior to match personal preferences and workflow requirements. They complement shared team standards (like BCGov's copilot-instructions) with personal preferences.
+
+**Why both files?**
+- `~/Repos/kilorules/rules/` = Personal preferences (communication style, workflow requirements, etc.)
+- `~/Repo/copilot-instructions/copilot-instructions.md` = Shared team/work standards
+- Together they provide complete context: shared standards + personal preferences
+
 ## Structure
 
 - [`README.md`](README.md) - This file (for humans, not read by Kilo)
@@ -25,3 +34,23 @@ ln -sf ~/Repos/kilorules/rules ~/.kilocode/rules
 ```
 
 This makes all rule files available to Kilo Code without including this README.
+
+## Customization
+
+Edit files in `rules/` to match your preferences. Key sections:
+
+- **Code Completion Requirements** - Workflow enforcement (rules/workflow.md)
+- **Communication Style** - How AI should interact (rules/communication.md)
+- **Documentation Guidelines** - Markdown formatting (rules/documentation.md)
+- **Rule Placement Philosophy** - How to organize rules (rules/personal-rules.md)
+
+## Updates
+
+Pull the latest changes:
+
+```bash
+cd ~/Repos/kilorules
+git pull
+```
+
+Kilo will automatically reload rules on next conversation.
