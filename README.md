@@ -40,7 +40,7 @@ ln -sf "$(pwd)/rules" ~/.kilocode/rules
 ln -sf ~/Repos/copilot-instructions/.github/copilot-instructions.md ~/.kilocode/rules/copilot-instructions.md
 ```
 
-The first command keeps your personal rules version controlled. The second adds shared team standards.
+The first command keeps your personal rules version controlled. The second adds shared team standards.  Make sure to handle machine-specific paths to suit your setup.
 
 ## Updates
 
