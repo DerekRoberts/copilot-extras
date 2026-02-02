@@ -18,7 +18,7 @@ These rules configure Kilo's AI assistant behavior to match personal preferences
 
 ### Rule Files
 
-The following files are in the [`rules/`](rules/) directory and should be symlinked to `~/.kilocode/rules`:
+The following files are in the [`rules/`](rules/) directory:
 
 - [`rules/workflow.md`](rules/workflow.md) - Git completion requirements and workflow rules
 - [`rules/communication.md`](rules/communication.md) - Communication style and active feedback rules
@@ -27,14 +27,14 @@ The following files are in the [`rules/`](rules/) directory and should be symlin
 
 ## Setup
 
-Symlink all rule files to Kilo's global rules directory:
+Symlink the rules directory to Kilo's global rules directory:
 
 ```bash
-mkdir -p ~/.kilocode/rules
+mkdir -p ~/.kilocode
 ln -sf "$(pwd)/rules" ~/.kilocode/rules
 ```
 
-Replace `PATH_TO_KILORULES_REPO` with the actual path to your kilorules clone.
+This keeps your rules version controlled and automatically updates when you pull.
 
 ## Updates
 
