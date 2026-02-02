@@ -31,7 +31,7 @@ Symlink all rule files to Kilo's global rules directory:
 
 ```bash
 mkdir -p ~/.kilocode/rules
-ln -sf PATH_TO_KILORULES_REPO/rules/*.md ~/.kilocode/rules/
+ln -sf "$(pwd)/rules" ~/.kilocode/rules
 ```
 
 Replace `PATH_TO_KILORULES_REPO` with the actual path to your kilorules clone.
