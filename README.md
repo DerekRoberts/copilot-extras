@@ -53,6 +53,7 @@ Examples:
 
 - [`README.md`](README.md) - This file (for humans, not read by Kilo)
 - [`rules/`](rules/) - Directory containing Kilo rule files
+- [`generate-copilot-instructions.sh`](generate-copilot-instructions.sh) - Script to generate `~/.copilot.md`
 
 ### Rule Files
 
@@ -96,3 +97,17 @@ Edit files in `rules/` to match your preferences. Key sections:
 - **Code Completion Requirements** - Workflow enforcement (rules/workflow.md)
 - **Communication Style** - How AI should interact (rules/communication.md)
 - **Documentation Guidelines** - Markdown formatting (rules/documentation.md)
+
+### Generating ~/.copilot.md
+
+This repository includes a script to generate a single `~/.copilot.md` file that aggregates all rules for easy use in new terminal sessions:
+
+```bash
+./generate-copilot-instructions.sh
+```
+
+This generates `~/.copilot.md` containing:
+- External shared rules from `../copilot-instructions/.github/copilot-instructions.md`
+- Local rules from `rules/communication.md`, `rules/documentation.md`, `rules/workflow.md`
+
+Run this script after updating any rules to regenerate the aggregated file.
