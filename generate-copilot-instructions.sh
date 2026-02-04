@@ -43,7 +43,7 @@ LOCAL_RULES_DIR="${SCRIPT_DIR}/rules"
         if [[ -f "${LOCAL_RULES_DIR}/${rule}.md" ]]; then
             echo "### $(echo "$rule" | sed 's/^\(.\)/\U\1/') Rules"
             echo ""
-            cat "${LOCAL_RULES_DIR}/${rule}.md"
+            tail -n +2 "${LOCAL_RULES_DIR}/${rule}.md"  # Skip the # Title line
             echo ""
         else
             echo "Warning: Local rule not found at ${LOCAL_RULES_DIR}/${rule}.md"
