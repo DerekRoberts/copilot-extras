@@ -108,6 +108,14 @@ This repository includes a script to generate a single `~/.copilot.md` file that
 
 This generates `~/.copilot.md` containing:
 - External shared rules from `../copilot-instructions/.github/copilot-instructions.md`
-- Local rules from `rules/communication.md`, `rules/documentation.md`, `rules/workflow.md`
+- Local rules from `rules/` in the order: `communication.md`, `documentation.md`, `workflow.md`
 
-Run this script after updating any rules to regenerate the aggregated file.
+**Configuration:**
+- The script looks for the external copilot-instructions repository at `../copilot-instructions/` by default
+- Override this path by setting the `COPILOT_INSTRUCTIONS_DIR` environment variable
+- The order of rules in the output is hardcoded; new rule files added to `rules/` will not be automatically included - update the script's rule loop to add them
+
+**Important Notes:**
+- The script creates a backup of the existing `~/.copilot.md` before overwriting it
+- Run this script after updating any rules to regenerate the aggregated file
+- Warnings during generation are written to stderr so they don't appear in the generated output file

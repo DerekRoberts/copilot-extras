@@ -3,15 +3,32 @@
 # Generate ~/.copilot.md from all rule files
 # Usage: ./generate-copilot-instructions.sh
 #
+# Environment Variables:
+#   COPILOT_INSTRUCTIONS_DIR: Path to external copilot-instructions repository
+#                            (default: ../copilot-instructions relative to script)
+#
 
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 OUTPUT_FILE="${HOME}/.copilot.md"
 
-# External copilot-instructions (local copy)
-EXTERNAL_FILE="${SCRIPT_DIR}/../copilot-instructions/.github/copilot-instructions.md"
+# External copilot-instructions (local copy) - configurable via environment variable
+COPILOT_INSTRUCTIONS_DIR="${COPILOT_INSTRUCTIONS_DIR:-${SCRIPT_DIR}/../copilot-instructions}"
+EXTERNAL_FILE="${COPILOT_INSTRUCTIONS_DIR}/.github/copilot-instructions.md"
 LOCAL_RULES_DIR="${SCRIPT_DIR}/rules"
+
+# Backup and confirmation for existing file
+if [[ -f "$OUTPUT_FILE" ]]; then
+    read -p "$OUTPUT_FILE already exists. Overwrite? (y/n) " -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo "Aborted."
+        exit 1
+    fi
+    cp "$OUTPUT_FILE" "${OUTPUT_FILE}.backup"
+    echo "Backup created: ${OUTPUT_FILE}.backup" >&2
+fi
 
 {
     echo "# Copilot Instructions"
@@ -31,7 +48,7 @@ LOCAL_RULES_DIR="${SCRIPT_DIR}/rules"
         echo "---"
         echo ""
     else
-        echo "Warning: External file not found at $EXTERNAL_FILE"
+        echo "Warning: External file not found at $EXTERNAL_FILE" >&2
         echo "---"
         echo ""
     fi
@@ -41,18 +58,18 @@ LOCAL_RULES_DIR="${SCRIPT_DIR}/rules"
     echo ""
     for rule in communication documentation workflow; do
         if [[ -f "${LOCAL_RULES_DIR}/${rule}.md" ]]; then
-            echo "### $(echo "$rule" | sed 's/^\(.\)/\U\1/') Rules"
+            echo "### ${rule^} Rules"
             echo ""
             tail -n +2 "${LOCAL_RULES_DIR}/${rule}.md"  # Skip the # Title line
             echo ""
         else
-            echo "Warning: Local rule not found at ${LOCAL_RULES_DIR}/${rule}.md"
+            echo "Warning: Local rule not found at ${LOCAL_RULES_DIR}/${rule}.md" >&2
         fi
     done
 
     echo "---"
     echo ""
-    echo "_Generated at $(date -Iseconds)_"
+    echo "_Generated at $(date -u +'%Y-%m-%dT%H:%M:%SZ')_"
 
 } > "$OUTPUT_FILE"
 
