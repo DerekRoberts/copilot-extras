@@ -1,18 +1,5 @@
 # Documentation Rules
 
-## 📝 Markdown & Documentation Formatting
-
-### Code Blocks in Release Notes & Documentation:
-- **Avoid triple backticks (```)** when creating code blocks that will be used in GitHub releases or other contexts where triple backticks may break formatting
-- **Use 4-space indentation** instead for code blocks in release notes, documentation, or any content that will be pasted into systems that don't handle triple backticks well
-- Triple backticks are fine for regular markdown files, but use indented code blocks when the content might be used in contexts where ``` breaks the formatting
-
-**Example:**
-    # Use 4-space indentation for code blocks
-    - uses: bcgov-nr/action-diff-triggers@v1.0.0
-      with:
-        triggers: ('backend/' 'frontend/')
-
 ## Privacy in Documentation
 
 **When creating or editing documentation (README.md, etc.):**

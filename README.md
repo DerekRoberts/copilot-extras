@@ -53,6 +53,7 @@ Examples:
 
 - [`README.md`](README.md) - This file (for humans, not read by Kilo)
 - [`rules/`](rules/) - Directory containing Kilo rule files
+- [`generate-copilot-instructions.sh`](generate-copilot-instructions.sh) - Script to generate `~/.copilot.md`
 
 ### Rule Files
 
@@ -96,3 +97,29 @@ Edit files in `rules/` to match your preferences. Key sections:
 - **Code Completion Requirements** - Workflow enforcement (rules/workflow.md)
 - **Communication Style** - How AI should interact (rules/communication.md)
 - **Documentation Guidelines** - Markdown formatting (rules/documentation.md)
+
+### Generating ~/.copilot.md
+
+This repository includes a script to generate a single `~/.copilot.md` file that aggregates all rules for easy use in new terminal sessions:
+
+```bash
+# Ensure the script is executable (if needed)
+chmod +x generate-copilot-instructions.sh
+
+# Run the generator
+./generate-copilot-instructions.sh
+```
+
+This generates `~/.copilot.md` containing:
+- External shared rules from `../copilot-instructions/.github/copilot-instructions.md`
+- Local rules from `rules/` in the order: `communication.md`, `documentation.md`, `workflow.md`
+
+**Configuration:**
+- The script looks for the external copilot-instructions repository at `../copilot-instructions/` by default
+- Override this path by setting the `COPILOT_INSTRUCTIONS_DIR` environment variable
+- The order of rules in the output is hardcoded; new rule files added to `rules/` will not be automatically included - update the script's rule loop to add them
+
+**Important Notes:**
+- The script creates a backup of the existing `~/.copilot.md` before overwriting it
+- Run this script after updating any rules to regenerate the aggregated file
+- Warnings during generation are written to stderr so they don't appear in the generated output file
