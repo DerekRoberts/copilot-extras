@@ -37,4 +37,4 @@
 - Don't recommend heavyweight frameworks when a shell script will do
 - Don't propose solutions that require manual maintenance across many repos
 - Don't suggest Java-based tools (Maven, Gradle, etc.) when alternatives exist
-- Don't create custom solutions when appropriate solutions exist (our own, GitHub Marketplace, npmjs.com)
+- Don't create custom solutions when appropriate solutions exist (my own, GitHub Marketplace, npmjs.com)
