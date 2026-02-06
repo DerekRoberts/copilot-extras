@@ -58,6 +58,7 @@ Examples:
 
 The following files are in the [`rules/`](rules/) directory:
 
+- [`rules/developer-profile.md`](rules/developer-profile.md) - Developer role, preferences, and working style
 - [`rules/workflow.md`](rules/workflow.md) - Git completion requirements and workflow rules
 - [`rules/communication.md`](rules/communication.md) - Communication style and active feedback rules
 - [`rules/documentation.md`](rules/documentation.md) - Markdown formatting and documentation guidelines
