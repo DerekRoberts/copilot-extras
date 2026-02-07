@@ -98,18 +98,6 @@ Edit files in `rules/` to match your preferences. Key sections:
 - **AI Behavior** - How AI should communicate and provide feedback ([`rules/ai-behavior.md`](rules/ai-behavior.md))
 - **Workflow** - AI-driven git commit and push workflow ([`rules/workflow.md`](rules/workflow.md))
 
-## Promoted Rules
-
-The following rules have been promoted from this repository to shared instructions after validation:
-
-- **Code Block Formatting** - Already existed in copilot-instructions (4-space indentation for releases)
-
-## Promotion Candidates
-
-The following rules are being considered for promotion to shared instructions:
-
-- **Privacy in Documentation** - Avoid personal names, use generic paths (universal best practice)
-
 ### Generating ~/.copilot.md
 
 This repository includes a script to generate a single `~/.copilot.md` file that aggregates all rules for easy use in new terminal sessions:
