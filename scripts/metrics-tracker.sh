@@ -1,12 +1,24 @@
 #!/bin/bash
 # Metrics Tracker - Analyze copilot-instructions.md complexity
-# Reports metrics with context and guidelines
+# Reports metrics with research-backed thresholds
+#
+# References:
+# - https://www.geeksforgeeks.org/git/prompt-engineering-tips-with-github-copilot/
+# - Perplexity research (2025):
+#   - Aim for ~1,000 words (50-80 short bullets or 20-30 detailed bullets)
+#   - If >60 lines, split into sections or separate files
+#   - First 5-10 rules carry most weight
+#   - Longer prompts improve performance up to practical limits
 #
 # Usage:
-#   ./metrics-tracker.sh              # Analyze ~/.copilot.md (informational only)
-#   ./metrics-tracker.sh --strict     # Analyze ~/.copilot.md (fail if thresholds exceeded)
-#   ./metrics-tracker.sh file.md      # Analyze custom file (informational only)
-#   ./metrics-tracker.sh file.md --strict  # Analyze custom file (fail if thresholds exceeded)
+#   ./metrics-tracker.sh [file]
+#
+# Arguments:
+#   file    Path to instructions file (default: ~/.copilot.md)
+#
+# Examples:
+#   $0                      # Analyze default file
+#   $0 custom/instructions.md   # Analyze custom file
 
 set -euo pipefail
 
@@ -27,134 +39,115 @@ analyze_instructions() {
     lines=$(wc -l < "$file")
     words=$(wc -w < "$file")
     headers=$(grep -c '^##' "$file" 2>/dev/null || true)
-    # MUST rules: Clear required practices
     must_rules=$(grep -Eic 'MUST|ALWAYS' "$file" 2>/dev/null || true)
-    # NEVER rules: Clear prohibited actions
     never_rules=$(grep -ic 'NEVER' "$file" 2>/dev/null || true)
-    # UNCLEAR rules: Ambiguous guidance that needs clarification
     unclear_rules=$(grep -Eic 'Should|Consider|Prefer|Try' "$file" 2>/dev/null || true)
 
-    # Ensure all counts are numeric (grep -c outputs 0 when no matches, but exits with code 1)
+    # Ensure all counts are numeric
     headers=${headers:-0}
     must_rules=${must_rules:-0}
     never_rules=${never_rules:-0}
     unclear_rules=${unclear_rules:-0}
 
-    # Guidelines for a comprehensive shared instructions file
-    local lines_target_min=150 lines_target_max=350
-    local sections_target_min=10 sections_target_max=30
-    local must_rules_target_max=20
-    local never_rules_target_max=10
-    local unclear_rules_target_max=0
+    # Research-backed thresholds
+    # Lines: <60 optimal, 60-100 warning, >100 split needed
+    # Words: <1000 optimal, 1000-2000 warning, >2000 split needed
+    # Sections: <10 optimal, 10-20 warning, >20 consolidate
+    # Rules (MUST+NEVER): <30 based on 20-30 detailed bullets
+    # UNCLEAR: 0 optimal - reword for clarity
+    local lines_warn_min=60 lines_warn_max=100
+    local words_warn_min=1000 words_warn_max=2000
+    local sections_warn=20
+    local rules_warn=30
+    local unclear_warn=0
 
-    # Display metrics with context in three columns
-    echo "CURRENT:"
-    printf "  %-18s %-15s %s\n" "Metric" "Target" "Value"
-    printf "  %-18s %-15s %s\n" "------" "------" "-----"
-    printf "  %-18s %-15s %s\n" "Lines" "$lines_target_min-$lines_target_max" "$lines"
-    printf "  %-18s %-15s %s\n" "Words" "-" "$words"
-    printf "  %-18s %-15s %s\n" "Sections" "$sections_target_min-$sections_target_max" "$headers"
-    printf "  %-18s %-15s %s\n" "MUST rules" "<$must_rules_target_max" "$must_rules"
-    printf "  %-18s %-15s %s\n" "NEVER rules" "<$never_rules_target_max" "$never_rules"
-    printf "  %-18s %-15s %s\n" "UNCLEAR rules" "$unclear_rules_target_max" "$unclear_rules"
+    # Display metrics with pass/fail
+    echo "CURRENT:                     TARGET:                    VALUE:"
+    printf "  %-26s %-23s %s\n" "Lines" "<$lines_warn_min (opt), <$lines_warn_max (warn)" "$lines"
+    printf "  %-26s %-23s %s\n" "Words" "<$words_warn_min (opt), <$words_warn_max (warn)" "$words"
+    printf "  %-26s %-23s %s\n" "Sections" "<$sections_warn" "$headers"
+    printf "  %-26s %-23s %s\n" "Rules (MUST+NEVER)" "<$rules_warn" "$((must_rules + never_rules))"
+    printf "  %-26s %-23s %s\n" "UNCLEAR" "$unclear_warn" "$unclear_rules"
     echo ""
 
     # Assessment
     echo "ASSESSMENT:"
-    local status_good=0
-    local status_failed=0
-    
-    if [[ $lines -ge $lines_target_min && $lines -le $lines_target_max ]]; then
-        echo "  ✅ Lines: Within healthy range"
-        status_good=$((status_good + 1))
-    elif [[ $lines -lt $lines_target_min ]]; then
-        echo "  ℹ️  Lines: Below target (more detail may be needed)"
-        [[ $strict_mode == true ]] && status_failed=$((status_failed + 1))
+    issues=0
+
+    # Lines assessment
+    if [[ $lines -lt $lines_warn_min ]]; then
+        echo "  ✅ Lines: Optimal (<$lines_warn_min)"
+    elif [[ $lines -le $lines_warn_max ]]; then
+        echo "  ⚠️  Lines: Acceptable ($lines lines)"
+        issues=$((issues + 1))
     else
-        echo "  ⚠️  Lines: Above target (consider breaking into narrower focus)"
-        [[ $strict_mode == true ]] && status_failed=$((status_failed + 1))
+        echo "  ❌ Lines: Consider splitting (> $lines_warn_max lines)"
+        issues=$((issues + 1))
     fi
 
-    if [[ $headers -ge $sections_target_min && $headers -le $sections_target_max ]]; then
-        echo "  ✅ Sections: Well-organized"
-        status_good=$((status_good + 1))
-    elif [[ $headers -lt $sections_target_min ]]; then
-        echo "  ℹ️  Sections: Few sections (may need better organization)"
-        [[ $strict_mode == true ]] && status_failed=$((status_failed + 1))
+    # Words assessment
+    if [[ $words -lt $words_warn_min ]]; then
+        echo "  ✅ Words: Optimal (<$words_warn_min)"
+    elif [[ $words -le $words_warn_max ]]; then
+        echo "  ⚠️  Words: Acceptable ($words words)"
+        issues=$((issues + 1))
     else
-        echo "  ⚠️  Sections: Many sections (consider consolidation or splitting)"
-        [[ $strict_mode == true ]] && status_failed=$((status_failed + 1))
+        echo "  ❌ Words: Consider splitting (> $words_warn_max words)"
+        issues=$((issues + 1))
     fi
 
-    if [[ $must_rules -lt $must_rules_target_max ]]; then
-        echo "  ✅ MUST rules: Essential practices clearly required"
-        status_good=$((status_good + 1))
+    # Sections assessment
+    if [[ $headers -lt $sections_warn ]]; then
+        echo "  ✅ Sections: Well-organized (<$sections_warn)"
     else
-        echo "  ⚠️  MUST rules: Many required rules (ensure each is essential)"
-        [[ $strict_mode == true ]] && status_failed=$((status_failed + 1))
+        echo "  ⚠️  Sections: Many sections ($headers - consider consolidation)"
+        issues=$((issues + 1))
     fi
 
-    if [[ $never_rules -lt $never_rules_target_max ]]; then
-        echo "  ✅ NEVER rules: Critical boundaries enforced"
-        status_good=$((status_good + 1))
+    # Rules assessment
+    local total_rules=$((must_rules + never_rules))
+    if [[ $total_rules -lt $rules_warn ]]; then
+        echo "  ✅ Rules: Reasonable count (<$rules_warn)"
     else
-        echo "  ⚠️  NEVER rules: Many prohibitions (clarify priorities)"
-        [[ $strict_mode == true ]] && status_failed=$((status_failed + 1))
+        echo "  ⚠️  Rules: High count ($total_rules - prioritize essential only)"
+        issues=$((issues + 1))
     fi
 
-    if [[ $unclear_rules -le $unclear_rules_target_max ]]; then
-        echo "  ✅ UNCLEAR rules: None found (guardrails are clear)"
-        status_good=$((status_good + 1))
+    # UNCLEAR assessment
+    if [[ $unclear_rules -eq 0 ]]; then
+        echo "  ✅ UNCLEAR: None (clear guardrails)"
     else
-        echo "  ⚠️  UNCLEAR rules: $unclear_rules found (reword for clarity: use MUST or NEVER)"
-        [[ $strict_mode == true ]] && status_failed=$((status_failed + 1))
+        echo "  ❌ UNCLEAR: $unclear_rules found (reword: use MUST/NEVER)"
+        issues=$((issues + 1))
     fi
 
     echo ""
-    if [[ $status_good -eq 5 ]]; then
+    if [[ $issues -eq 0 ]]; then
         echo "📈 Overall: Clear, enforceable guardrails"
-    elif [[ $status_good -ge 4 ]]; then
-        echo "📈 Overall: Mostly clear guardrails with minor issues"
+    elif [[ $issues -le 2 ]]; then
+        echo "📈 Overall: Minor issues - review flagged items"
     else
-        echo "📈 Overall: Review guideline wording for clarity"
+        echo "📈 Overall: Significant issues - consider restructuring"
     fi
     echo ""
-
-    # Exit with status based on strict mode and results
-    if [[ $strict_mode == true && $status_failed -gt 0 ]]; then
-        echo "❌ Strict mode: $status_failed metric(s) exceeded thresholds" >&2
-        exit 1
-    fi
 }
 
 # Main execution
 readonly DEFAULT_INSTRUCTIONS="$HOME/.copilot.md"
 
-# Handle help/strict flags
+# Handle help flag
 if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
-    echo "Usage: $0 [--strict] [file]"
+    echo "Usage: $0 [file]"
     echo ""
-    echo "Analyze copilot instructions for guardrails clarity."
+    echo "Analyze copilot instructions with research-backed thresholds."
     echo ""
     echo "Arguments:"
-    echo "  --strict   Exit with non-zero status if metrics exceed thresholds"
-    echo "  file       Path to instructions file (default: $DEFAULT_INSTRUCTIONS)"
+    echo "  file    Path to instructions file (default: $DEFAULT_INSTRUCTIONS)"
     echo ""
     echo "Examples:"
-    echo "  $0                          # Analyze default file (informational)"
-    echo "  $0 --strict                 # Fail if thresholds exceeded"
-    echo "  $0 custom/instructions.md   # Analyze custom file (informational)"
-    echo "  $0 custom/instructions.md --strict  # Analyze and fail if needed"
+    echo "  $0                          # Analyze default file"
+    echo "  $0 custom/instructions.md   # Analyze custom file"
     exit 0
-fi
-
-# Check for strict mode (can be first or last argument)
-strict_mode=false
-if [[ "${1:-}" == "--strict" ]]; then
-    strict_mode=true
-    shift
-elif [[ "${2:-}" == "--strict" ]]; then
-    strict_mode=true
 fi
 
 # Validate argument count
