@@ -62,19 +62,21 @@ fi
         echo "Warning: External file not found at $EXTERNAL_FILE" >&2
     fi
 
-    # Local rules from rules/ directory
+    # Local rules from rules/ directory - dynamically discover all .md files
     echo "## Local Rules"
     echo ""
-    for rule in communication documentation workflow; do
-        if [[ -f "${LOCAL_RULES_DIR}/${rule}.md" ]]; then
-            echo "### ${rule^} Rules"
+    for rule_file in "${LOCAL_RULES_DIR}"/*.md; do
+        if [[ -f "$rule_file" ]]; then
+            # Get base filename without path and extension
+            rule_name=$(basename "$rule_file" .md)
+            # Capitalize first letter for title
+            rule_title=$(echo "${rule_name:0:1}" | tr '[:lower:]' '[:upper:]')${rule_name:1}
+            echo "### ${rule_title} Rules"
             echo ""
             # Skip the first markdown title line (format: "# Title")
             # This assumes each rule file starts with a level-1 heading on line 1
-            awk 'NR > 1' "${LOCAL_RULES_DIR}/${rule}.md"
+            awk 'NR > 1' "$rule_file"
             echo ""
-        else
-            echo "Warning: Local rule not found at ${LOCAL_RULES_DIR}/${rule}.md" >&2
         fi
     done
 
@@ -85,3 +87,7 @@ fi
 } > "$OUTPUT_FILE"
 
 echo "Generated: $OUTPUT_FILE"
+
+# Run metrics analysis on combined output (Kilo + Copilot rules)
+echo ""
+bash "${COPILOT_INSTRUCTIONS_DIR}/scripts/metrics-tracker.sh" "$OUTPUT_FILE"
