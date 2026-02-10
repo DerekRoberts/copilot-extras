@@ -2,6 +2,14 @@
 # Metrics Tracker - Analyze copilot-instructions.md complexity
 # Reports basic metrics for review
 #
+# TODO: Research-backed thresholds needed for:
+#   - Optimal instruction length (tokens/lines/words)
+#   - Maximum number of rules (MUST/NEVER)
+#   - Ideal section count
+#   - UNCLEAR guidance tolerance
+#
+# Current values are placeholder heuristics without validation.
+#
 # Usage:
 #   ./metrics-tracker.sh [file]
 #
