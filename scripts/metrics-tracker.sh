@@ -149,7 +149,7 @@ if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
 fi
 
 # Check for strict mode (can be first or last argument)
-local strict_mode=false
+strict_mode=false
 if [[ "${1:-}" == "--strict" ]]; then
     strict_mode=true
     shift
