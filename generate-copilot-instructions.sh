@@ -71,7 +71,7 @@ fi
     rule_count=0
     for rule_file in "${LOCAL_RULES_DIR}"/*.md; do
         if [[ -f "$rule_file" ]]; then
-            ((rule_count++))
+            ((rule_count++)) || true
             # Get base filename without path and extension
             rule_name=$(basename "$rule_file" .md)
             # Capitalize first letter for title
