@@ -2,11 +2,13 @@
 # Metrics Tracker - Analyze copilot-instructions.md complexity
 # Reports metrics with research-backed thresholds
 #
-# Research basis (Perplexity, 2025):
-# - Aim for ~1,000 words (50-80 short bullets or 20-30 detailed bullets)
-# - If >60 lines, split into sections or separate files
-# - First 5-10 rules carry most weight
-# - Longer prompts improve performance up to practical limits
+# References:
+# - https://www.geeksforgeeks.org/git/prompt-engineering-tips-with-github-copilot/
+# - Perplexity research (2025):
+#   - Aim for ~1,000 words (50-80 short bullets or 20-30 detailed bullets)
+#   - If >60 lines, split into sections or separate files
+#   - First 5-10 rules carry most weight
+#   - Longer prompts improve performance up to practical limits
 #
 # Usage:
 #   ./metrics-tracker.sh [file]
