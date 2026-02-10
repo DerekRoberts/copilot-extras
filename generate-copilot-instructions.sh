@@ -90,4 +90,4 @@ echo "Generated: $OUTPUT_FILE"
 
 # Run metrics analysis on combined output (Kilo + Copilot rules)
 echo ""
-bash "${COPILOT_INSTRUCTIONS_DIR}/scripts/metrics-tracker.sh" "$OUTPUT_FILE"
+bash "${SCRIPT_DIR}/scripts/metrics-tracker.sh" "$OUTPUT_FILE"
