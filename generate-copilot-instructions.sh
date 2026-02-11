@@ -37,6 +37,11 @@ COPILOT_INSTRUCTIONS_DIR="${COPILOT_INSTRUCTIONS_DIR:-${SCRIPT_DIR}/../copilot-i
 EXTERNAL_FILE="${COPILOT_INSTRUCTIONS_DIR}/.github/copilot-instructions.md"
 LOCAL_RULES_DIR="${SCRIPT_DIR}/rules"
 
+action="Created"
+if [[ -f "$OUTPUT_FILE" ]]; then
+    action="Updated"
+fi
+
 {
     echo "# Copilot Instructions"
     echo ""
@@ -86,11 +91,6 @@ LOCAL_RULES_DIR="${SCRIPT_DIR}/rules"
     echo "---"
     echo ""
     echo "_Generated at $(date -u +'%Y-%m-%dT%H:%M:%SZ')_"
-
-action="Created"
-if [[ -f "$OUTPUT_FILE" ]]; then
-    action="Updated"
-fi
 
 } > "$OUTPUT_FILE"
 
