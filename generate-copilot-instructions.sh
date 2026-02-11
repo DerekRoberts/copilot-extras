@@ -32,10 +32,10 @@ COPILOT_INSTRUCTIONS_DIR="${COPILOT_INSTRUCTIONS_DIR:-${SCRIPT_DIR}/../copilot-i
 EXTERNAL_FILE="${COPILOT_INSTRUCTIONS_DIR}/.github/copilot-instructions.md"
 LOCAL_RULES_DIR="${SCRIPT_DIR}/rules"
 
-# Rules directories
-COPILOT_INSTRUCTIONS_DIR="${COPILOT_INSTRUCTIONS_DIR:-${SCRIPT_DIR}/../copilot-instructions}"
-EXTERNAL_FILE="${COPILOT_INSTRUCTIONS_DIR}/.github/copilot-instructions.md"
-LOCAL_RULES_DIR="${SCRIPT_DIR}/rules"
+action="Created"
+if [[ -f "$OUTPUT_FILE" ]]; then
+    action="Updated"
+fi
 
 {
     echo "# Copilot Instructions"
@@ -89,7 +89,7 @@ LOCAL_RULES_DIR="${SCRIPT_DIR}/rules"
 
 } > "$OUTPUT_FILE"
 
-echo "Generated: $OUTPUT_FILE"
+echo "$action: $OUTPUT_FILE"
 
 # Run metrics analysis on combined output (Kilo + Copilot rules)
 echo ""
