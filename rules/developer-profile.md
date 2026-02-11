@@ -7,7 +7,7 @@
 - Prefers global/shared solutions over per-repo customization
 - Languages: Bash, Python, JavaScript/TypeScript. Avoid Java unless explicitly requested.
 - **Shared over bespoke**: extract repeating patterns into shared solutions (GitHub Action, npm package, etc.)
-- **Convention over configuration**: repos should work with minimal per-repo setup
+- **Convention over configuration**: repos work with minimal per-repo setup
 - Assume DevOps expertise — skip basic explanations of CI/CD, containers, git
 - Present options as comparison tables rather than paragraphs
 - Prefers concise diffs over lengthy explanations
