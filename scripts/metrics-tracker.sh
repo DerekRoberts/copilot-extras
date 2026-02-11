@@ -35,9 +35,10 @@ analyze_instructions() {
     echo ""
 
     # Get basic metrics
-    local lines words headers must_rules never_rules soft_rules
+    local lines words chars headers must_rules never_rules soft_rules
     lines=$(wc -l < "$file")
     words=$(wc -w < "$file")
+    chars=$(wc -m < "$file")
     headers=$(grep -c '^## ' "$file" 2>/dev/null || true)
     must_rules=$(grep -Eiwc 'MUST|ALWAYS' "$file" 2>/dev/null || true)
     never_rules=$(grep -iwc 'NEVER' "$file" 2>/dev/null || true)
@@ -63,6 +64,7 @@ analyze_instructions() {
     local total_rules=$((must_rules + never_rules))
     echo "METRIC:                       TARGET:                     VALUE:"
     printf "  %-27s %-27s %s\n" "Words" "<$words_opt (opt), <$words_warn (warn)" "$words"
+    printf "  %-27s %-27s %s\n" "Characters" "<=4000 (max)" "$chars"
     printf "  %-27s %-27s %s\n" "Sections (##)" "<$sections_opt (opt), <$sections_warn (warn)" "$headers"
     printf "  %-27s %-27s %s\n" "Hard rules (MUST+NEVER)" "<$rules_opt (opt), <$rules_warn (warn)" "$total_rules"
     printf "  %-27s %-27s %s\n" "Lines" "informational" "$lines"
@@ -81,6 +83,14 @@ analyze_instructions() {
         issues=$((issues + 1))
     else
         echo "  ❌ Words: Too long ($words words, target <$words_warn)"
+        issues=$((issues + 1))
+    fi
+
+    # Characters assessment
+    if [[ $chars -le 4000 ]]; then
+        echo "  ✅ Characters: Within limit ($chars)"
+    else
+        echo "  ❌ Characters: Exceeds limit ($chars > 4000)"
         issues=$((issues + 1))
     fi
 
