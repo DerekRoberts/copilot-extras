@@ -87,9 +87,15 @@ LOCAL_RULES_DIR="${SCRIPT_DIR}/rules"
     echo ""
     echo "_Generated at $(date -u +'%Y-%m-%dT%H:%M:%SZ')_"
 
+if [[ -f "$OUTPUT_FILE" ]]; then
+    echo "Updating: $OUTPUT_FILE"
+else
+    echo "Creating: $OUTPUT_FILE"
+fi
+
 } > "$OUTPUT_FILE"
 
-echo "Generated: $OUTPUT_FILE"
+echo "Done: $OUTPUT_FILE"
 
 # Run metrics analysis on combined output (Kilo + Copilot rules)
 echo ""
