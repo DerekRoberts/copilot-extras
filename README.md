@@ -10,15 +10,21 @@ Personal GitHub Copilot instructions combining shared BCGov standards with perso
 - Shared BCGov team standards from `../copilot-instructions/.github/copilot-instructions.md`
 - Personal preferences from all `*.md` files in `rules/`
 
-Output: `~/.copilot.md`
+Output: `~/.copilot.md` (or custom path via optional argument)
 
 ## Usage
 
 ```bash
+# Generate to default location (~/.copilot.md)
 ./generate-copilot-instructions.sh
+
+# Generate to custom location
+./generate-copilot-instructions.sh /path/to/output.md
 ```
 
-Displays metrics after generation. Run after editing files in `rules/`.
+Displays metrics after generation.
+
+## Integration
 
 ### GitHub Copilot (per-project)
 

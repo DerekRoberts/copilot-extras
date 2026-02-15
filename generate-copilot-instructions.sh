@@ -1,7 +1,10 @@
 #!/bin/bash
 #
 # Generate ~/.copilot.md from developer-profile.md
-# Usage: ./generate-copilot-instructions.sh
+# Usage: ./generate-copilot-instructions.sh [output_file]
+#
+# Arguments:
+#   output_file    Path to output file (default: ~/.copilot.md)
 #
 # Environment Variables:
 #   COPILOT_INSTRUCTIONS_DIR: Path to external copilot-instructions repository
@@ -11,7 +14,7 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-OUTPUT_FILE="${HOME}/.copilot.md"
+OUTPUT_FILE="${1:-${HOME}/.copilot.md}"
 
 # External copilot-instructions (local copy) - configurable via environment variable
 COPILOT_INSTRUCTIONS_DIR="${COPILOT_INSTRUCTIONS_DIR:-${SCRIPT_DIR}/../copilot-instructions}"
