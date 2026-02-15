@@ -2,6 +2,8 @@
 
 Personal GitHub Copilot instructions combining shared BCGov standards with personal preferences.
 
+`copilot-instructions` contains the essential standards (git workflow, security, documentation). This repo adds optional personal preferences (communication style, language choices).
+
 ## What it does
 
 `generate-copilot-instructions.sh` concatenates:
@@ -21,5 +23,5 @@ Displays metrics after generation. Run after editing files in `rules/`.
 ## Structure
 
 - `generate-copilot-instructions.sh` - Generator script
-- `rules/` - Personal preference files (all `*.md` files concatenated alphabetically; use numeric prefixes to control order)
+- `rules/` - Personal rules (all `*.md` files concatenated alphabetically)
 - `scripts/metrics-tracker.sh` - Analyzes generated output complexity
