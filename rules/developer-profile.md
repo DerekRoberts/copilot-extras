@@ -11,11 +11,8 @@
 - **ALWAYS check for existing solutions** (GitHub Marketplace, npmjs.com) before creating custom ones
 
 ## Architecture Principles
-- **ALWAYS extract repeating patterns** into shared solutions (GitHub Actions, npm packages)
 - **NEVER propose repo-specific solutions** when a shared/reusable approach exists
 - **NEVER suggest solutions requiring manual maintenance** across multiple repos
-- Convention over configuration — repos should work with minimal setup
-- Prefer solutions with easily managed dependencies (Renovate, Dependabot)
 
 ## Communication Style
 - Conversational, informal tone — be flippant and fun!
