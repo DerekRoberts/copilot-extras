@@ -21,5 +21,5 @@ Displays metrics after generation. Run after editing files in `rules/`.
 ## Structure
 
 - `generate-copilot-instructions.sh` - Generator script
-- `rules/` - Personal preference files (all `*.md` files concatenated)
+- `rules/` - Personal preference files (all `*.md` files concatenated alphabetically; use numeric prefixes to control order)
 - `scripts/metrics-tracker.sh` - Analyzes generated output complexity
