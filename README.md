@@ -23,4 +23,3 @@ Displays metrics after generation. Run after editing `rules/developer-profile.md
 - `generate-copilot-instructions.sh` - Generator script
 - `rules/developer-profile.md` - Personal preferences (language prefs, communication style)
 - `scripts/metrics-tracker.sh` - Analyzes generated output complexity
-- `plans/` - Planning documents (not used by Copilot)
