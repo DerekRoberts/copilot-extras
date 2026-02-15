@@ -10,7 +10,7 @@ Personal GitHub Copilot instructions combining shared BCGov standards with perso
 - Shared BCGov team standards from `../copilot-instructions/.github/copilot-instructions.md`
 - Personal preferences from all `*.md` files in `rules/`
 
-Output: `~/.copilot.md` (used globally by Copilot, Kilo Code, and Cursor via symlinks)
+Output: `~/.copilot.md`
 
 ## Usage
 
@@ -20,9 +20,17 @@ Output: `~/.copilot.md` (used globally by Copilot, Kilo Code, and Cursor via sym
 
 Displays metrics after generation. Run after editing files in `rules/`.
 
-### Using with other AI tools
+### GitHub Copilot (per-project)
 
-Other tools like Kilo Code and Cursor can use the generated instructions via symlink:
+Copilot doesn't support global instructions. Include in project-level `.github/copilot-instructions.md`:
+
+```markdown
+@~/.copilot.md
+```
+
+### Kilo Code & Cursor (global)
+
+These tools support global instructions via symlink:
 
 ```bash
 # Kilo Code
