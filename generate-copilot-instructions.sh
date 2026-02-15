@@ -24,43 +24,21 @@ if [[ -f "$OUTPUT_FILE" ]]; then
 fi
 
 {
-    echo "# Copilot Instructions"
-    echo ""
-    echo "_Auto-generated from generate-copilot-instructions.sh_"
-    echo "_Do not edit manually - edit rules/developer-profile.md instead_"
-    echo ""
-    echo "---"
-    echo ""
-
     # External shared rules
     if [[ -f "$EXTERNAL_FILE" ]]; then
-        echo "## External Shared Rules"
-        echo ""
         cat "$EXTERNAL_FILE"
-        echo ""
-        echo "---"
         echo ""
     else
         echo "Warning: External file not found at $EXTERNAL_FILE" >&2
     fi
 
     # Local rules
-    echo "## Local Rules"
-    echo ""
     developer_profile="${LOCAL_RULES_DIR}/developer-profile.md"
     if [[ -f "$developer_profile" ]]; then
-        echo "### Developer-profile Rules"
-        echo ""
-        # Skip the first markdown title line (format: "# Title")
-        awk 'NR > 1' "$developer_profile"
-        echo ""
+        cat "$developer_profile"
     else
         echo "Warning: developer-profile.md not found at $developer_profile" >&2
     fi
-
-    echo "---"
-    echo ""
-    echo "_Generated at $(date -u +'%Y-%m-%dT%H:%M:%SZ')_"
 
 } > "$OUTPUT_FILE"
 
