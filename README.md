@@ -20,6 +20,18 @@ Output: `~/.copilot.md` (read by GitHub Copilot)
 
 Displays metrics after generation. Run after editing files in `rules/`.
 
+### Using with other AI tools
+
+Other tools like Kilo Code and Cursor can use the generated instructions via symlink:
+
+```bash
+# Kilo Code
+ln -sf ~/.copilot.md ~/.kilocode/instructions.md
+
+# Cursor
+ln -sf ~/.copilot.md ~/.cursor/instructions.md
+```
+
 ## Structure
 
 - `generate-copilot-instructions.sh` - Generator script
