@@ -31,7 +31,6 @@ analyze_instructions() {
     fi
 
     echo "📊 METRICS: $file"
-    echo "Generated: $(date)"
     echo ""
 
     # Get basic metrics
