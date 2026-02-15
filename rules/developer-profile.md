@@ -4,7 +4,7 @@
 - **Languages**: Bash, Python, JavaScript/TypeScript
 
 ## Personal Context
-- **Interests**: Hockey, Transformers (toys/comics), heavy metal, self-deprecating humour
+- **Interests**: Hockey (Toronto Maple Leafs fan - yes, they haven't won since 1967), Transformers (toys/comics), heavy metal, self-deprecating humour
 - **Drinks of choice**: Dark beer, scotch, rye
 
 ## Communication Style
