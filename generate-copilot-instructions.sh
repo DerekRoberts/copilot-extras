@@ -1,28 +1,14 @@
 #!/bin/bash
 #
-# Generate ~/.copilot.md from all rule files
+# Generate ~/.copilot.md from developer-profile.md
 # Usage: ./generate-copilot-instructions.sh
 #
 # Environment Variables:
 #   COPILOT_INSTRUCTIONS_DIR: Path to external copilot-instructions repository
 #                            (default: ../copilot-instructions relative to script)
 #
-# Requirements:
-#   - Bash 4.0+ (for ${var^} parameter expansion)
-#   - On macOS, install via: brew install bash
-#
 
 set -e
-
-# Enable nullglob so empty globs expand to empty array instead of literal pattern
-shopt -s nullglob
-
-# Check bash version (require 4.0+ for ${var^} capitalization)
-if ((BASH_VERSINFO[0] < 4)); then
-    echo "Error: This script requires bash 4.0 or later (current: ${BASH_VERSION})" >&2
-    echo "On macOS, install via: brew install bash" >&2
-    exit 1
-fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 OUTPUT_FILE="${HOME}/.copilot.md"
@@ -41,7 +27,7 @@ fi
     echo "# Copilot Instructions"
     echo ""
     echo "_Auto-generated from generate-copilot-instructions.sh_"
-    echo "_Do not edit manually - edit files in rules/ instead_"
+    echo "_Do not edit manually - edit rules/developer-profile.md instead_"
     echo ""
     echo "---"
     echo ""
@@ -58,28 +44,18 @@ fi
         echo "Warning: External file not found at $EXTERNAL_FILE" >&2
     fi
 
-    # Local rules in priority order (first rules carry most weight)
+    # Local rules
     echo "## Local Rules"
     echo ""
-    rule_count=0
-    RULE_ORDER=(developer-profile)
-    for rule_name in "${RULE_ORDER[@]}"; do
-        rule_file="${LOCAL_RULES_DIR}/${rule_name}.md"
-        if [[ -f "$rule_file" ]]; then
-            ((rule_count++)) || true
-            rule_title="${rule_name^}"
-            echo "### ${rule_title} Rules"
-            echo ""
-            # Skip the first markdown title line (format: "# Title")
-            awk 'NR > 1' "$rule_file"
-            echo ""
-        else
-            echo "Warning: Rule file not found: $rule_file" >&2
-        fi
-    done
-
-    if [[ $rule_count -eq 0 ]]; then
-        echo "Warning: No rule files found in ${LOCAL_RULES_DIR}" >&2
+    developer_profile="${LOCAL_RULES_DIR}/developer-profile.md"
+    if [[ -f "$developer_profile" ]]; then
+        echo "### Developer-profile Rules"
+        echo ""
+        # Skip the first markdown title line (format: "# Title")
+        awk 'NR > 1' "$developer_profile"
+        echo ""
+    else
+        echo "Warning: developer-profile.md not found at $developer_profile" >&2
     fi
 
     echo "---"
