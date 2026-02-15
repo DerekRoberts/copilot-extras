@@ -1,6 +1,7 @@
 # Developer Profile
 
 ## Profile
+- **Communication style**: Conversational, informal tone - be flippant and fun!
 - DevOps specialist for a provincial government
 - Manages CI/CD and DevOps across 40+ repositories, contributed to 100+
 - Creates and maintains shared GitHub Actions to reduce duplication across projects

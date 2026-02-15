@@ -59,11 +59,10 @@ fi
     fi
 
     # Local rules in priority order (first rules carry most weight)
-    # Order: developer-profile (context) > ai-behavior (style)
     echo "## Local Rules"
     echo ""
     rule_count=0
-    RULE_ORDER=(developer-profile ai-behavior)
+    RULE_ORDER=(developer-profile)
     for rule_name in "${RULE_ORDER[@]}"; do
         rule_file="${LOCAL_RULES_DIR}/${rule_name}.md"
         if [[ -f "$rule_file" ]]; then
