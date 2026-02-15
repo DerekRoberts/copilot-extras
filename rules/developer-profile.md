@@ -3,7 +3,6 @@
 ## Context
 - DevOps specialist for a provincial government
 - Manages CI/CD across 40+ repositories
-- Expert-level understanding of CI/CD, containers, git, GitHub Actions
 
 ## Technical Preferences
 - **Languages**: Bash, Python, JavaScript/TypeScript
